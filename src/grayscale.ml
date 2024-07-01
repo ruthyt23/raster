@@ -22,9 +22,10 @@ let%expect_test "transform" =
       then acc
       else acc + 1)
   in
-  match pixels_wrong with
-  | 0 -> ()
-  | _ -> printf "Test failed: # of pixels that differ = %d" pixels_wrong
+  (match pixels_wrong with
+   | 0 -> ()
+   | _ -> printf "Test failed: # of pixels that differ = %d" pixels_wrong);
+  [%expect ""]
 ;;
 
 let command =
