@@ -9,6 +9,13 @@ let transform ~foreground ~background =
     if b > r + g then Image.get background ~x ~y else r, g, b)
 ;;
 
+let improved_transform ~foreground ~background =
+  Image.mapi foreground ~f:(fun ~x ~y (r, g, b) ->
+    if Float.( >. ) (Int.to_float b) (3.0 *. Int.to_float (r + g) /. 4.0)
+    then Image.get background ~x ~y
+    else r, g, b)
+;;
+
 let%expect_test "transform" =
   let oz = Image.load_ppm ~filename:"../images/oz_bluescreen.ppm" in
   let ref_oz_meadow =
@@ -48,7 +55,7 @@ let command =
       fun () ->
         let foreground = Image.load_ppm ~filename:foreground_file in
         let background = Image.load_ppm ~filename:background_file in
-        let image' = transform ~foreground ~background in
+        let image' = improved_transform ~foreground ~background in
         Image.save_ppm
           image'
           ~filename:
