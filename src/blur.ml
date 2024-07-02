@@ -2,17 +2,21 @@ open Core
 
 (* You need to modify this function to blur the input image based on the
    provided radius instead of ignoring it. *)
+
+let transform_helper image ~x ~y ~radius =
+  let width = Image.width image in
+  let height = Image.height image in
+  let x_start = max 0 (x - radius) in
+  let x_end = min (width - 1) (x + radius) in
+  (*should just be width according to slice's doc..?*)
+  let y_start = max 0 (y - radius) in
+  let y_end = min (height - 1) (y + radius) in
+  let avg = Image.slice image ~x_start ~x_end ~y_start ~y_end in
+  Image.mean_pixel avg
+;;
+
 let transform image ~radius =
-  Image.mapi image ~f:(fun ~x ~y _ ->
-    let width = Image.width image in
-    let height = Image.height image in
-    let x_start = max 0 (x - radius) in
-    let x_end = min (width - 1) (x + radius) in
-    (*should just be width according to slice's doc..?*)
-    let y_start = max 0 (y - radius) in
-    let y_end = min (height - 1) (y + radius) in
-    let avg = Image.slice image ~x_start ~x_end ~y_start ~y_end in
-    Image.mean_pixel avg)
+  Image.mapi image ~f:(fun ~x ~y _ -> transform_helper image ~x ~y ~radius)
 ;;
 
 let%expect_test "transform" =

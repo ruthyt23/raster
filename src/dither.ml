@@ -56,7 +56,7 @@ let transform image =
     Image.foldi ~init:0 image ~f:(fun ~x ~y _ _ ->
       let old_val = Pixel.red (Image.get image ~x ~y) in
       let new_val =
-        if Float.( >. ) (Int.to_float old_val) (0.5 *. Int.to_float max)
+        if Float.( > ) (Int.to_float old_val) (0.5 *. Int.to_float max)
         then max, max, max
         else Pixel.zero
       in
