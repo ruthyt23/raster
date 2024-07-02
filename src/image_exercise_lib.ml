@@ -9,5 +9,6 @@ let command =
     ; "dither", Dither.command
     ; "solarize", Solarize.command
     ; "color-dither", Color_dither.command
+    ; "edge-detect", Edge_detect.command
     ]
 ;;
