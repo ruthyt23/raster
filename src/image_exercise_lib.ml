@@ -10,5 +10,6 @@ let command =
     ; "solarize", Solarize.command
     ; "color-dither", Color_dither.command
     ; "edge-detect", Edge_detect.command
+    ; "mosaic", Mosaic.command
     ]
 ;;
